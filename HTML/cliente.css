@@ -1,0 +1,63 @@
+/* Estilos para a aba Clientes */
+
+.clients-container {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+}
+
+.clients-container h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.clients-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.client-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 15px;
+    padding: 20px;
+    width: calc(30% - 30px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.client-card:hover {
+    transform: translateY(-5px);
+}
+
+.client-logo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.client-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.client-testimonial {
+    font-style: italic;
+    color: #555;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .client-card {
+        width: calc(45% - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    .client-card {
+        width: 100%;
+    }
+}
