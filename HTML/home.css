@@ -8,7 +8,7 @@
     .container {width: 100%; float: left; padding: 3% 4%; text-align: center;}
     
     .bg-gradient {background: linear-gradient(to right,#ce2e3c,#008000);}
-    .bg-black {background-color: #130400; }
+    .bg-black {background-color: #a08178cb; }
     .bg-white {background-color: #fff;}
     
     .radius {border-radius: 7px;}
@@ -24,7 +24,7 @@
     .menu li a {font-size: 2em; color: #fff; padding: 1.5% 3%;}
     .menu li a:hover {border:1px solid #da6709;}
     /* BANNER */
-    .banner {background: url(../img/banner1.jpg) no-repeat fixed;}
+    .banner {background: url(https://segredosdomundo.r7.com/wp-content/uploads/2020/04/musica-sertaneja-historia-evolucao-e-nomes-de-sucesso.jpg) no-repeat fixed;}
     .title {width: 100%;}
     .title h2 {font-size: 2.5em; color: #fff; font-weight: 700;}
     .title h3 {font-size: 1.5em; color: #fff;}
@@ -55,7 +55,7 @@
     /* ========== MOBILE FIRST ==========*/
     /* SMALL DEVICES - SMARTPHONES */
     @media screen and (min-width: 480px) {
-    .logo {width: 214px; background: url(../img/logo1.png) center center/214px no-repeat;}
+    .logo {width: 400px; background: url(https://cdn-icons-png.flaticon.com/512/26/26433.png) center center/214px no-repeat;}
     .btn {font-size: 2em;}
     }
     /* SMALL DEVICES - TABLETS*/
