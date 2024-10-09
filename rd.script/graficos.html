@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos de Consumo de Café</title>
+    <link rel="stylesheet" href=sw.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gráficos de Consumo de Café</h1>
+        
+        <div class="charts-container">
+            <div class="chart">
+                <h2>1. Você toma café?</h2>
+                <canvas id="question1" width="200" height="200"></canvas>
+            </div>
+            <div class="chart">
+                <h2>2. Tipos de Café Preferidos</h2>
+                <canvas id="question2" width="200" height="200"></canvas>
+            </div>
+            <div class="chart">
+                <h2>3. Modo de Adoçar o Café</h2>
+                <canvas id="question3" width="200" height="200"></canvas>
+            </div>
+            <div class="chart">
+                <h2>4. Acompanhamentos com Café</h2>
+                <canvas id="question4" width="200" height="200"></canvas>
+            </div>
+            <div class="chart">
+                <h2>5. Frequência em Cafeterias</h2>
+                <canvas id="question5" width="200" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="chart">
+            <h2>Média, Moda e Mediana</h2>
+            <canvas id="statsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="graficos.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Café</title>
+    <link rel="stylesheet" href="backgraudtelapesquisa.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à Cafeteria!</h1>
+        <h2>Responda ao nosso questionário</h2>
+        <form id="coffeeSurvey">
+            <div class="question">
+                <label>1. Você toma café?</label>
+                <select name="coffeeDrink" required>
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                    <option value="corriqueiramente">Corriqueiramente</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>2. Quais dessas opções você escolheria?</label>
+                <select name="coffeeType" required>
+                    <option value="">Selecione</option>
+                    <option value="expresso">Café Expresso</option>
+                    <option value="leite">Café com Leite</option>
+                    <option value="coado">Café Coado</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>3. De qual modo você adoça o café?</label>
+                <select name="sweetener" required>
+                    <option value="">Selecione</option>
+                    <option value="acucar">Com Açúcar</option>
+                    <option value="sem_acucar">Sem Açúcar</option>
+                    <option value="adoçante">Com Adoçante</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>4. Quais acompanhamentos você come com café?</label>
+                <select name="accompaniment" required>
+                    <option value="">Selecione</option>
+                    <option value="bolo">Bolo</option>
+                    <option value="salgados">Salgados</option>
+                    <option value="doces">Doces Finos</option>
+                    <option value="cookies">Cookies</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>5. Com que frequência você vai na cafeteria?</label>
+                <select name="frequency" required>
+                    <option value="">Selecione</option>
+                    <option value="nunca">Nunca</option>
+                    <option value="ocasionalmente">Ocasionalmente</option>
+                    <option value="sempre">Sempre</option>
+                </select>
+            </div>
+            <button type="submit">Enviar Respostas</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
