@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questionário de Café</title>
-    <link rel="stylesheet" href="backgraudtelapesquisa.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -64,12 +63,7 @@
         </form>
     </div>
 
-    <canvas id="question1" width="200" height="200"></canvas>
-    <canvas id="question2" width="200" height="200"></canvas>
-
     <script>
-        let chart1, chart2; // Variáveis globais para os gráficos
-
         // Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyCvx7JMzwgbUhyiwIqGd5TypG8x5VJPq1w",
@@ -102,77 +96,13 @@
             database.ref('coffeeSurveys').push(surveyData)
                 .then(() => {
                     console.log("Dados enviados com sucesso!");
-                    updateCharts();
+                    alert("Obrigado por participar! Agora você será redirecionado para a página de gráficos.");
+                    window.location.href = 'paginagraficos.html'; // Altere o caminho conforme necessário
                 })
                 .catch((error) => {
                     console.error("Erro ao enviar dados: ", error);
                 });
         });
-
-        function updateCharts() {
-            database.ref('coffeeSurveys').once('value').then((snapshot) => {
-                const data = {
-                    sim: 0,
-                    nao: 0,
-                    corriqueiramente: 0,
-                    tipos: {
-                        expresso: 0,
-                        leite: 0,
-                        coado: 0,
-                    }
-                };
-
-                snapshot.forEach((childSnapshot) => {
-                    const survey = childSnapshot.val();
-                    data[survey.coffeeDrink]++;
-                    data.tipos[survey.coffeeType]++;
-                });
-
-                updateChart1(data);
-                updateChart2(data);
-            });
-        }
-
-        function updateChart1(data) {
-            const ctx1 = document.getElementById('question1').getContext('2d');
-            if (chart1) chart1.destroy(); // Destrói o gráfico existente
-            chart1 = new Chart(ctx1, {
-                type: 'pie',
-                data: {
-                    labels: ['Sim', 'Não', 'Corriqueiramente'],
-                    datasets: [{
-                        data: [data.sim, data.nao, data.corriqueiramente],
-                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
-        }
-
-        function updateChart2(data) {
-            const ctx2 = document.getElementById('question2').getContext('2d');
-            if (chart2) chart2.destroy(); // Destrói o gráfico existente
-            chart2 = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['Café Expresso', 'Café com Leite', 'Café Coado'],
-                    datasets: [{
-                        label: 'Tipos de Café Preferidos',
-                        data: [
-                            data.tipos.expresso,
-                            data.tipos.leite,
-                            data.tipos.coado,
-                        ],
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
-        }
     </script>
 </body>
 </html>

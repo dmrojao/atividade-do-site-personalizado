@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos de Consumo de Café</title>
+    <link rel="stylesheet" href="style-graficos.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Gráficos de Café</h1>
+    
+    <div class="charts-container">
+        <canvas id="question1" width="200" height="200"></canvas>
+        <canvas id="question2" width="200" height="200"></canvas>
+        <canvas id="statsChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvx7JMzwgbUhyiwIqGd5TypG8x5VJPq1w",
+            authDomain: "cafe-estatistico.firebaseapp.com",
+            databaseURL: "https://cafe-estatistico-default-rtdb.firebaseio.com",
+            projectId: "cafe-estatistico",
+            storageBucket: "cafe-estatistico.appspot.com",
+            messagingSenderId: "1099056747027",
+            appId: "1:1099056747027:web:2fac5f2130207a5eb4a5e6",
+            measurementId: "G-QDE1JPSKD7"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Função para atualizar os gráficos
+        function updateCharts() {
+            database.ref('coffeeSurveys').once('value').then((snapshot) => {
+                const data = {
+                    sim: 0,
+                    nao: 0,
+                    corriqueiramente: 0,
+                    tipos: {
+                        expresso: 0,
+                        leite: 0,
+                        coado: 0,
+                    },
+                    frequencias: []
+                };
+
+                snapshot.forEach((childSnapshot) => {
+                    const survey = childSnapshot.val();
+                    data[survey.coffeeDrink] = (data[survey.coffeeDrink] || 0) + 1; // Contagem para a pergunta 1
+                    data.tipos[survey.coffeeType] = (data.tipos[survey.coffeeType] || 0) + 1; // Contagem para a pergunta 2
+                    data.frequencias.push(survey.frequency); // Coleta frequências
+                });
+
+                updateChart1(data);
+                updateChart2(data);
+                calculateStatistics(data.frequencias);
+            });
+        }
+
+        // Atualiza o gráfico da pergunta 1
+        function updateChart1(data) {
+            const ctx1 = document.getElementById('question1').getContext('2d');
+            new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: ['Sim', 'Não', 'Corriqueiramente'],
+                    datasets: [{
+                        data: [data.sim, data.nao, data.corriqueiramente],
+                        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        // Atualiza o gráfico da pergunta 2
+        function updateChart2(data) {
+            const ctx2 = document.getElementById('question2').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Café Expresso', 'Café com Leite', 'Café Coado'],
+                    datasets: [{
+                        label: 'Tipos de Café Preferidos',
+                        data: [
+                            data.tipos.expresso,
+                            data.tipos.leite,
+                            data.tipos.coado,
+                        ],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        // Calcula e atualiza estatísticas de frequência
+        function calculateStatistics(frequencies) {
+            const frequencyValues = frequencies.map(freq => {
+                if (freq === 'nunca') return 0;
+                if (freq === 'ocasionalmente') return 1;
+                if (freq === 'sempre') return 2;
+                return null; // Para evitar valores indefinidos
+            }).filter(v => v !== null); // Remove valores nulos
+
+            if (frequencyValues.length === 0) return; // Se não houver dados válidos, não gera gráfico
+
+            const mean = Math.round(frequencyValues.reduce((a, b) => a + b, 0) / frequencyValues.length);
+            const median = Math.round(calculateMedian(frequencyValues));
+            const mode = Math.round(calculateMode(frequencyValues));
+
+            const statsChart = document.getElementById('statsChart').getContext('2d');
+            new Chart(statsChart, {
+                type: 'bar',
+                data: {
+                    labels: ['Média', 'Mediana', 'Moda'],
+                    datasets: [{
+                        label: 'Estatísticas de Frequência',
+                        data: [mean, median, mode],
+                        backgroundColor: ['#FFCE56', '#4BC0C0', '#FF6384'],
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        // Calcula a mediana
+        function calculateMedian(values) {
+            values.sort((a, b) => a - b);
+            const mid = Math.floor(values.length / 2);
+            return values.length % 2 !== 0 ? values[mid] : Math.round((values[mid - 1] + values[mid]) / 2);
+        }
+
+        // Calcula a moda
+        function calculateMode(values) {
+            const frequencyMap = {};
+            let maxFrequency = 0;
+            let mode;
+
+            values.forEach(value => {
+                frequencyMap[value] = (frequencyMap[value] || 0) + 1;
+                if (frequencyMap[value] > maxFrequency) {
+                    maxFrequency = frequencyMap[value];
+                    mode = value;
+                }
+            });
+
+            return mode !== undefined ? Math.round(mode) : null; // Retorna null se não houver moda
+        }
+
+        // Chama a função para atualizar os gráficos ao carregar a página
+        updateCharts();
+    </script>
+</body>
+</html>
